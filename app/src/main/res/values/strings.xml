@@ -1,3 +1,27 @@
 <resources>
     <string name="app_name">Projet_Dev_Mobil</string>
+    <string name="nom">Nom</string>
+    <string name="name">Name</string>
+    <string name="v_rification_mots_de_passe">Vérification mots de passe</string>
+    <string name="sexe">Sexe</string>
+    <string name="homme">Homme</string>
+    <string name="inscription">Inscription</string>
+    <string name="femme">Femme</string>
+    <string name="prenom">Prenom</string>
+    <string name="date_de_naissance">Date de naissance</string>
+    <string name="mots_de_passe">Mots de passe</string>
+    <string name="email">Email</string>
+    <string name="mot_de_passe">Mot de passe</string>
+    <string name="exemple_exemple_com">exemple@exemple.com</string>
+    <string name="connexion">Connexion</string>
+    <string name="facile">Facile</string>
+    <string name="chrono">Chrono</string>
+    <string name="expert">Expert</string>
+    <string name="difficile">Difficile</string>
+    <string name="modes_de_jeu">Modes de jeu</string>
+    <string name="color_memory">Color Memory</string>
+    <string name="red">Red</string>
+    <string name="green">Green</string>
+    <string name="yellow">Yellow</string>
+    <string name="blue">Blue</string>
 </resources>
