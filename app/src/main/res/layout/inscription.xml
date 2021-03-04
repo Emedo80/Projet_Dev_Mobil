@@ -5,166 +5,192 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <LinearLayout
+    <TextView
+        android:id="@+id/Date_naiss"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:visibility="visible"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginStart="32dp"
+        android:layout_marginLeft="32dp"
+        android:text="@string/date_de_naissance"
+        app:layout_constraintBottom_toTopOf="@+id/v_pass"
+        app:layout_constraintEnd_toStartOf="@+id/v_naiss"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="@+id/v_naiss" />
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:baselineAligned="false"
-            android:orientation="horizontal">
+    <TextView
+        android:id="@+id/Prenom"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginLeft="32dp"
+        android:text="@string/prenom"
+        app:layout_constraintBottom_toTopOf="@+id/v_naiss"
+        app:layout_constraintEnd_toStartOf="@+id/v_prenom"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/v_nom" />
 
-            <TextView
-                android:id="@+id/Nom"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:text="@string/nom" />
+    <TextView
+        android:id="@+id/Mots_de_Passe"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginLeft="32dp"
+        android:text="@string/mots_de_passe"
+        app:layout_constraintBottom_toBottomOf="@+id/v_pass"
+        app:layout_constraintEnd_toStartOf="@+id/v_pass"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/v_pass" />
 
-            <EditText
-                android:id="@+id/v_nom"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:autofillHints=""
-                android:ems="10"
-                android:inputType="textPersonName"
-                android:text="@string/name" />
-        </LinearLayout>
+    <TextView
+        android:id="@+id/Nom"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginLeft="32dp"
+        android:text="@string/nom"
+        app:layout_constraintBottom_toBottomOf="@+id/v_nom"
+        app:layout_constraintEnd_toStartOf="@+id/v_nom"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/v_nom" />
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
+    <TextView
+        android:id="@+id/Verif_MDP"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginLeft="32dp"
+        android:singleLine="false"
+        android:text="@string/v_rification_mots_de_passe"
+        app:layout_constraintBottom_toBottomOf="@+id/v_verif_pass"
+        app:layout_constraintEnd_toStartOf="@+id/v_verif_pass"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/v_pass" />
 
-            <TextView
-                android:id="@+id/Prenom"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:text="@string/prenom" />
+    <TextView
+        android:id="@+id/Sexe"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginLeft="32dp"
+        android:layout_weight="1"
+        android:text="@string/sexe"
+        app:layout_constraintBottom_toBottomOf="@+id/v_sexe"
+        app:layout_constraintEnd_toStartOf="@+id/v_sexe"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/v_sexe" />
 
-            <EditText
-                android:id="@+id/v_prenom"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:autofillHints=""
-                android:ems="10"
-                android:inputType="textPersonName"
-                android:text="@string/prenom" />
+    <EditText
+        android:id="@+id/v_nom"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="32dp"
+        android:layout_marginRight="32dp"
+        android:autofillHints=""
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:text="@string/nom"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/guideline7"
+        app:layout_constraintTop_toTopOf="parent" />
 
-        </LinearLayout>
+    <EditText
+        android:id="@+id/v_pass"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="32dp"
+        android:layout_marginRight="32dp"
+        android:autofillHints=""
+        android:ems="10"
+        android:inputType="textPassword"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/guideline7"
+        app:layout_constraintTop_toBottomOf="@+id/v_naiss" />
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
+    <EditText
+        android:id="@+id/v_verif_pass"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="32dp"
+        android:layout_marginRight="32dp"
+        android:autofillHints=""
+        android:ems="10"
+        android:inputType="textPassword"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/guideline7"
+        app:layout_constraintTop_toBottomOf="@+id/v_pass" />
 
-            <TextView
-                android:id="@+id/Date_naiss"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:text="@string/date_de_naissance" />
+    <EditText
+        android:id="@+id/v_naiss"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="32dp"
+        android:layout_marginRight="32dp"
+        android:autofillHints=""
+        android:ems="10"
+        android:inputType="date"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/guideline7"
+        app:layout_constraintTop_toBottomOf="@+id/v_prenom" />
 
-            <EditText
-                android:id="@+id/v_naiss"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:autofillHints=""
-                android:ems="10"
-                android:inputType="date" />
+    <RadioGroup
+        android:id="@+id/v_sexe"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="fill_horizontal"
+        android:layout_marginEnd="32dp"
+        android:layout_marginRight="32dp"
+        android:layout_weight="1"
+        android:clickable="false"
+        android:clipChildren="true"
+        android:gravity="center"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/guideline7"
+        app:layout_constraintTop_toBottomOf="@+id/v_verif_pass">
 
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <TextView
-                android:id="@+id/Mots_de_Passe"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:text="@string/mots_de_passe" />
-
-            <EditText
-                android:id="@+id/v_pass"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:autofillHints=""
-                android:ems="10"
-                android:inputType="textPassword" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <TextView
-                android:id="@+id/Verif_MDP"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:text="@string/v_rification_mots_de_passe" />
-
-            <EditText
-                android:id="@+id/v_verif_pass"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:autofillHints=""
-                android:ems="10"
-                android:inputType="textPassword" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <TextView
-                android:id="@+id/Sexe"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:text="@string/sexe" />
-
-            <RadioGroup
-                android:id="@+id/v_sexe"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="fill_horizontal"
-                android:layout_weight="1"
-                android:clickable="false"
-                android:clipChildren="true"
-                android:orientation="horizontal">
-
-                <RadioButton
-                    android:id="@+id/Homme"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/homme" />
-
-                <RadioButton
-                    android:id="@+id/Femme"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/femme" />
-
-            </RadioGroup>
-
-        </LinearLayout>
-
-        <Button
-            android:id="@+id/Valid_button"
+        <RadioButton
+            android:id="@+id/Homme"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/inscription" />
+            android:text="@string/homme" />
 
-    </LinearLayout>
+        <RadioButton
+            android:id="@+id/Femme"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/femme" />
+
+    </RadioGroup>
+
+    <EditText
+        android:id="@+id/v_prenom"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="32dp"
+        android:layout_marginRight="32dp"
+        android:autofillHints=""
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:text="@string/prenom"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/guideline7"
+        app:layout_constraintTop_toBottomOf="@+id/v_nom" />
+
+    <Button
+        android:id="@+id/Valid_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/inscription"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/v_sexe" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline7"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.3" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

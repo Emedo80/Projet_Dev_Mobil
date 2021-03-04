@@ -1,61 +1,60 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintBottom_toBottomOf="parent"
+    <Button
+        android:id="@+id/Blue"
+        android:text="@string/blue"
+        android:textSize="36sp"
+        app:backgroundTint="@color/Blue_Dark"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHeight_percent="0.25"
+        app:layout_constraintStart_toStartOf="@+id/guideline"
+        app:layout_constraintTop_toTopOf="@+id/guideline2" />
+
+    <Button
+        android:id="@+id/Green"
+        android:text="@string/green"
+        android:textSize="36sp"
+        app:backgroundTint="@color/Green_Dark"
+        app:layout_constraintBottom_toTopOf="@+id/guideline2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHeight_percent="0.25"
+        app:layout_constraintStart_toStartOf="@+id/guideline" />
+
+    <Button
+        android:id="@+id/Red"
+        android:text="@string/red"
+        android:textSize="36sp"
+        app:backgroundTint="@color/Red_Dark"
+        app:layout_constraintBottom_toTopOf="@+id/guideline2"
+        app:layout_constraintEnd_toStartOf="@+id/guideline"
+        app:layout_constraintHeight_percent="0.25"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/Yellow"
+        android:text="@string/yellow"
+        android:textSize="36sp"
+        app:backgroundTint="@color/Yellow_Dark"
+        app:layout_constraintEnd_toStartOf="@+id/guideline"
+        app:layout_constraintHeight_percent="0.25"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="@+id/guideline2" />
 
-        <LinearLayout
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.5" />
 
-            <Button
-                android:id="@+id/Red"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:text="@string/red"
-                android:textSize="36sp"
-                app:backgroundTint="#E40C0C" />
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline2"
+        android:layout_width="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.5" />
 
-            <Button
-                android:id="@+id/Yellow"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:text="@string/yellow"
-                android:textSize="36sp"
-                app:backgroundTint="#C3B114" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-
-            <Button
-                android:id="@+id/Green"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:text="@string/green"
-                android:textSize="36sp"
-                app:backgroundTint="#4DC11B" />
-
-            <Button
-                android:id="@+id/Blue"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:text="@string/blue"
-                android:textSize="36sp"
-                app:backgroundTint="#46C2E1" />
-        </LinearLayout>
-    </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
