@@ -13,12 +13,10 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        Toast.makeText(MainActivity.this,"Firebase connexion Success",Toast.LENGTH_LONG).show();
     }
 
     public void ClickConnexion(View view){
-        setContentView(R.layout.activity_connexion);
+        startActivity(new Intent(view.getContext(),connexion.class));
     }
 
     public void ClickInscription(View view){

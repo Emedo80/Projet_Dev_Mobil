@@ -1,112 +1,79 @@
 package fr.iut.projet_dev_mobil;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
-import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.RadioGroup;
 import android.widget.Toast;
 
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 import java.util.Date;
 
 public class inscrip extends AppCompatActivity {
 
-    EditText nom;
-    EditText prenom;
-    EditText email;
-    EditText dateNaiss;
-    EditText password;
-    EditText verifPassword;
-    RadioGroup sexe;
+    EditText v_nom,v_prenom,v_email,v_pass,v_verif_pass;
     Button Valid_button;
-    static DatabaseReference reff;
-    static Utilisateur user;
+
+    private FirebaseAuth mAuth;
+    String TAG="BDD_Android";
 
     @Override
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_inscrip);
 
-        nom=(EditText)findViewById(R.id.v_nom);
-        prenom=(EditText)findViewById(R.id.v_prenom);
-        dateNaiss=(EditText)findViewById(R.id.v_naiss);
-        email=(EditText)findViewById(R.id.v_mailInscription);
-        sexe=(RadioGroup)findViewById(R.id.v_sexe);
-        password=(EditText)findViewById(R.id.v_pass);
-        verifPassword=(EditText)findViewById(R.id.v_verif_pass);
-        user = new Utilisateur();
-        reff= FirebaseDatabase.getInstance().getReference().child("Utilisateur");
+        v_nom=findViewById(R.id.v_nom);
+        v_prenom=findViewById(R.id.v_prenom);
+        v_email=findViewById(R.id.v_mailInscription);
+        v_pass=findViewById(R.id.v_pass);
+        v_verif_pass=findViewById(R.id.v_verif_pass);
         Valid_button=(Button)findViewById(R.id.Valid_button);
+
+        mAuth = FirebaseAuth.getInstance();
+
         Valid_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                addUser(v_email.getText().toString(), v_pass.getText().toString());
 
-                Boolean Error = false;
-                int SexeCkecked = sexe.getCheckedRadioButtonId();
-
-                if (!user.setNom(nom.getText().toString())){
-                    nom.setError("Le prenom est obligatoire !");
-                    Error = true;
-                }
-
-                if (!user.setPrenom(prenom.getText().toString())){
-                    prenom.setError("Le prenom est obligatoire !");
-                    Error = true;
-                }
-
-                if (!user.setEmail(email.getText().toString())){
-                    email.setError("Le email est obligatoire !");
-                    Error = true;
-                }
-
-                if (!user.setDateNaiss(dateNaiss.getText().toString())){
-                    dateNaiss.setError("La date de naissance est obligatoire !");
-                    Error = true;
-                }
-
-                switch (SexeCkecked) {
-                    case 1:
-                        user.setSexe(false);
-                        break;
-                    case 2:
-                        user.setSexe(true);
-                        break;
-                    case -1:
-                        sexe.set setError("Le sexe est obligatoire !");
-                        Error = true;
-                        break;
-                }
-
-                if (!user.setPassword(password.getText().toString())){
-                    password.setError("Le mot de passe est obligatoire !");
-                    Error = true;
-                }
-
-                if (!user.setVerifPassword(verifPassword.getText().toString())){
-                    verifPassword.setError("Le mot de passe est obligatoire !");
-                    Error = true;
-                }
-
-                if (!user.isValidPassword(password.getText().toString(),verifPassword.getText().toString())){
-                    verifPassword.setError("Le mot de passe n'est pas identique");
-                    Error = true;
-                }
-
-                if (Error == false){
-                    try {
-                        reff.push().setValue(user);
-                        Toast.makeText(v.getContext(), "Inscription réussit",Toast.LENGTH_LONG).show();
-                    } catch (Exception e) {
-                        Toast.makeText(v.getContext(), "Echec de l'inscription",Toast.LENGTH_LONG).show();
-                    }
-                }
             }
         });
     }
+
+    public void addUser(String email, String password){
+        mAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if (task.isSuccessful()) {
+                            // Sign in success, update UI with the signed-in user's information
+                            Intent intent = new Intent(inscrip.this, MainActivity.class);
+                            Toast.makeText(inscrip.this, "Inscription réussi.", Toast.LENGTH_SHORT).show();
+                            startActivity(intent);
+                            Log.d(TAG, "createUserWithEmail:success");
+                            FirebaseUser user = mAuth.getCurrentUser();
+
+                            //updateUI(user);
+                        } else {
+                            // If sign in fails, display a message to the user.
+                            Log.w(TAG, "createUserWithEmail:failure", task.getException());
+                            Toast.makeText(inscrip.this, "Erreur lore de l'inscription",
+                                    Toast.LENGTH_SHORT).show();
+                            //updateUI(null);
+                        }
+
+                        // ...
+                    }
+                });
+    }
+
 }
