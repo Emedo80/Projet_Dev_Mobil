@@ -9,6 +9,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Projet_Dev_Mobil">
+        <activity android:name=".color_memory"></activity>
+        <activity android:name=".game_choice" />
+        <activity android:name=".connexion" />
+        <activity android:name=".inscrip" />
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

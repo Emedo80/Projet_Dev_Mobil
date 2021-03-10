@@ -3,7 +3,35 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    tools:context=".inscrip">
+
+
+    <TextView
+        android:id="@+id/Email"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginLeft="32dp"
+        android:text="@string/email"
+        app:layout_constraintBottom_toBottomOf="@+id/v_mailInscription"
+        app:layout_constraintEnd_toStartOf="@+id/v_mailInscription"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/v_mailInscription" />
+
+    <EditText
+        android:id="@+id/v_mailInscription"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="32dp"
+        android:layout_marginRight="32dp"
+        android:autofillHints=""
+        android:ems="10"
+        android:hint="@string/exemple_email"
+        android:inputType="textPersonName|textEmailAddress"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/guideline7"
+        app:layout_constraintTop_toBottomOf="@+id/v_prenom" />
 
     <TextView
         android:id="@+id/Date_naiss"
@@ -24,7 +52,7 @@
         android:layout_marginStart="32dp"
         android:layout_marginLeft="32dp"
         android:text="@string/prenom"
-        app:layout_constraintBottom_toTopOf="@+id/v_naiss"
+        app:layout_constraintBottom_toBottomOf="@+id/v_prenom"
         app:layout_constraintEnd_toStartOf="@+id/v_prenom"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/v_nom" />
@@ -88,8 +116,8 @@
         android:layout_marginRight="32dp"
         android:autofillHints=""
         android:ems="10"
+        android:hint="@string/nom"
         android:inputType="textPersonName"
-        android:text="@string/nom"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@+id/guideline7"
         app:layout_constraintTop_toTopOf="parent" />
@@ -102,6 +130,7 @@
         android:layout_marginRight="32dp"
         android:autofillHints=""
         android:ems="10"
+        android:hint="@string/mot_de_passe"
         android:inputType="textPassword"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@+id/guideline7"
@@ -115,6 +144,7 @@
         android:layout_marginRight="32dp"
         android:autofillHints=""
         android:ems="10"
+        android:hint="@string/mot_de_passe"
         android:inputType="textPassword"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@+id/guideline7"
@@ -128,10 +158,11 @@
         android:layout_marginRight="32dp"
         android:autofillHints=""
         android:ems="10"
+        android:hint="@string/dd_mm_yyyy"
         android:inputType="date"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@+id/guideline7"
-        app:layout_constraintTop_toBottomOf="@+id/v_prenom" />
+        app:layout_constraintTop_toBottomOf="@+id/v_mailInscription" />
 
     <RadioGroup
         android:id="@+id/v_sexe"
@@ -171,8 +202,8 @@
         android:layout_marginRight="32dp"
         android:autofillHints=""
         android:ems="10"
+        android:hint="@string/prenom"
         android:inputType="textPersonName"
-        android:text="@string/prenom"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@+id/guideline7"
         app:layout_constraintTop_toBottomOf="@+id/v_nom" />

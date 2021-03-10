@@ -11,7 +11,6 @@
     <string name="mots_de_passe">Mots de passe</string>
     <string name="email">Email</string>
     <string name="mot_de_passe">Mot de passe</string>
-    <string name="exemple_exemple_com">exemple@exemple.com</string>
     <string name="connexion">Connexion</string>
     <string name="facile">Facile</string>
     <string name="chrono">Chrono</string>
@@ -23,4 +22,6 @@
     <string name="green">Green</string>
     <string name="yellow">Yellow</string>
     <string name="blue">Blue</string>
+    <string name="exemple_email">exemple@exemple.com</string>
+    <string name="dd_mm_yyyy">DD/MM/YYYY</string>
 </resources>
