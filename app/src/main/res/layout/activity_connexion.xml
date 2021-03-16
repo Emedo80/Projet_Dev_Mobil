@@ -66,6 +66,7 @@
         android:autofillHints=""
         android:ems="10"
         android:inputType="textWebEmailAddress"
+        android:text="test@gmail.com"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@+id/guideline4"
         app:layout_constraintTop_toTopOf="parent" />

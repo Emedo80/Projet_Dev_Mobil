@@ -24,4 +24,6 @@
     <string name="blue">Blue</string>
     <string name="exemple_email">exemple@exemple.com</string>
     <string name="dd_mm_yyyy">DD/MM/YYYY</string>
+    <string name="user">User :</string>
+    <string name="username">Username</string>
 </resources>

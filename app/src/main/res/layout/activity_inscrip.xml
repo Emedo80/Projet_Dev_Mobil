@@ -40,10 +40,10 @@
         android:layout_marginStart="32dp"
         android:layout_marginLeft="32dp"
         android:text="@string/date_de_naissance"
-        app:layout_constraintBottom_toTopOf="@+id/v_pass"
-        app:layout_constraintEnd_toStartOf="@+id/v_naiss"
+        app:layout_constraintBottom_toBottomOf="@+id/Datedisplay"
+        app:layout_constraintEnd_toStartOf="@+id/guideline7"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/v_naiss" />
+        app:layout_constraintTop_toTopOf="@+id/Datedisplay" />
 
     <TextView
         android:id="@+id/Prenom"
@@ -126,6 +126,7 @@
         android:id="@+id/v_pass"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginTop="48dp"
         android:layout_marginEnd="32dp"
         android:layout_marginRight="32dp"
         android:autofillHints=""
@@ -134,7 +135,7 @@
         android:inputType="textPassword"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@+id/guideline7"
-        app:layout_constraintTop_toBottomOf="@+id/v_naiss" />
+        app:layout_constraintTop_toBottomOf="@+id/v_mailInscription" />
 
     <EditText
         android:id="@+id/v_verif_pass"
@@ -149,20 +150,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@+id/guideline7"
         app:layout_constraintTop_toBottomOf="@+id/v_pass" />
-
-    <EditText
-        android:id="@+id/v_naiss"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="32dp"
-        android:layout_marginRight="32dp"
-        android:autofillHints=""
-        android:ems="10"
-        android:hint="@string/dd_mm_yyyy"
-        android:inputType="date"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/guideline7"
-        app:layout_constraintTop_toBottomOf="@+id/v_mailInscription" />
 
     <RadioGroup
         android:id="@+id/v_sexe"
@@ -223,5 +210,16 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         app:layout_constraintGuide_percent="0.3" />
+
+    <TextView
+        android:id="@+id/Datedisplay"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:hint="@string/dd_mm_yyyy"
+        android:textSize="30sp"
+        app:layout_constraintBottom_toTopOf="@+id/v_pass"
+        app:layout_constraintEnd_toEndOf="@+id/v_mailInscription"
+        app:layout_constraintStart_toStartOf="@+id/guideline7"
+        app:layout_constraintTop_toBottomOf="@+id/v_mailInscription" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

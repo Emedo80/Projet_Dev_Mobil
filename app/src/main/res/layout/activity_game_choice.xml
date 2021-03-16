@@ -45,7 +45,6 @@
             android:id="@+id/BoutonFacile"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:onClick="BoutonFacile"
             android:text="@string/facile"
             android:textSize="18sp" />
 
@@ -70,5 +69,27 @@
             android:text="@string/chrono"
             android:textSize="18sp" />
     </LinearLayout>
+
+    <TextView
+        android:id="@+id/textViewUser"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="16dp"
+        android:text="@string/user"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/User"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="16dp"
+        android:text="@string/username"
+        app:layout_constraintStart_toEndOf="@+id/textViewUser"
+        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
