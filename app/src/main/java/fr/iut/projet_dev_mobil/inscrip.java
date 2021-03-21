@@ -13,6 +13,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -23,7 +24,6 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.Calendar;
@@ -33,12 +33,14 @@ import java.util.Map;
 public class inscrip extends AppCompatActivity {
 
     EditText v_nom,v_prenom,v_email,v_pass,v_verif_pass;
+    RadioButton v_homme ,v_femme;
     TextView mDisplayDate;
     Button Valid_button;
 
     DatePickerDialog.OnDateSetListener onDateSetListener;
 
     private FirebaseAuth mAuth;
+    private FirebaseFirestore db;
     String TAG="BDD_Android";
 
     @Override
@@ -52,10 +54,12 @@ public class inscrip extends AppCompatActivity {
         v_email=findViewById(R.id.v_mailInscription);
         v_pass=findViewById(R.id.v_pass);
         v_verif_pass=findViewById(R.id.v_verif_pass);
+        v_homme=findViewById(R.id.Homme);
+        v_femme=findViewById(R.id.Femme);
         Valid_button=(Button)findViewById(R.id.Valid_button);
 
         mAuth = FirebaseAuth.getInstance();
-        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        db = FirebaseFirestore.getInstance();
 
         mDisplayDate.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -96,25 +100,6 @@ public class inscrip extends AppCompatActivity {
                     Toast.makeText(v.getContext(), "Mots de passes pas identique!", Toast.LENGTH_SHORT).show();
                 }
 
-                // Create a new user with a first and last name
-                Map<String, Object> user = new HashMap<>();
-                user.put("Prenom", v_prenom.getText().toString());
-                user.put("Nom", v_nom.getText().toString());
-                // Add a new document with a generated ID
-                db.collection("users")
-                        .add(user)
-                        .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
-                            @Override
-                            public void onSuccess(DocumentReference documentReference) {
-                                Log.d(TAG, "DocumentSnapshot added with ID: " + documentReference.getId());
-                            }
-                        })
-                        .addOnFailureListener(new OnFailureListener() {
-                            @Override
-                            public void onFailure(@NonNull Exception e) {
-                                Log.w(TAG, "Error adding document", e);
-                            }
-                        });
             }
         });
     }
@@ -125,17 +110,15 @@ public class inscrip extends AppCompatActivity {
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
                             // Sign in success, update UI with the signed-in user's information
-                            Intent intent = new Intent(inscrip.this, MainActivity.class);
-                            Toast.makeText(inscrip.this, "Inscription réussi.", Toast.LENGTH_SHORT).show();
-                            startActivity(intent);
-                            Log.d(TAG, "createUserWithEmail:success");
                             FirebaseUser user = mAuth.getCurrentUser();
+                            addData(mAuth.getUid());
+                            Log.d(TAG, "createUserWithEmail:success");
 
                             //updateUI(user);
                         } else {
                             // If sign in fails, display a message to the user.
                             Log.w(TAG, "createUserWithEmail:failure", task.getException());
-                            Toast.makeText(inscrip.this, "Erreur lore de l'inscription",
+                            Toast.makeText(inscrip.this, "Erreur lors de l'inscription",
                                     Toast.LENGTH_SHORT).show();
                             //updateUI(null);
                         }
@@ -145,4 +128,38 @@ public class inscrip extends AppCompatActivity {
                 });
     }
 
+    public void addData(String idUser){
+
+        // Create a new user with a first and last name
+        Map<String, Object> user = new HashMap<>();
+        user.put("Prenom", v_prenom.getText().toString());
+        user.put("Nom", v_nom.getText().toString());
+        user.put("dateNaissance", mDisplayDate.getText().toString());
+        user.put("email", v_email.getText().toString());
+        user.put("score", 0);
+
+        if(v_femme.isChecked()){
+            user.put("sexe", v_femme.getText().toString());
+        } else{
+            user.put("sexe", v_homme.getText().toString());
+        }
+
+        // Add a new document with a generated ID
+        db.collection("users").document(idUser).set(user).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void avoid) {
+                Log.d(TAG, "DocumentSnapshot added with ID: ");
+                Intent intent = new Intent(inscrip.this, MainActivity.class);
+                Toast.makeText(inscrip.this, "Inscription réussi.", Toast.LENGTH_SHORT).show();
+                startActivity(intent);
+            }
+        })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.w(TAG, "Error adding document", e);
+                    }
+                });
+
+    }
 }
