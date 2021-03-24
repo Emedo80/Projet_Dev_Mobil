@@ -47,8 +47,10 @@ public class game_choice extends AppCompatActivity {
         Facile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(v.getContext(), color_memory.class);
-                intent.putExtra("GameMode", 1);
+                final Intent intent = new Intent(v.getContext(), color_memory.class);
+                intent.putExtra("nb_bloc_start",1);
+                intent.putExtra("nb_bloc_4_win",7);
+                intent.putExtra("poids_du_mode",(double) 1);
                 Toast.makeText(v.getContext(), "Mode Facile.", Toast.LENGTH_SHORT).show();
                 startActivity(intent);
             }
@@ -57,8 +59,10 @@ public class game_choice extends AppCompatActivity {
         Difficile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(v.getContext(), color_memory.class);
-                intent.putExtra("GameMode", 2);
+                final Intent intent = new Intent(v.getContext(), color_memory.class);
+                intent.putExtra("nb_bloc_start",3);
+                intent.putExtra("nb_bloc_4_win",10);
+                intent.putExtra("poids_du_mode", 1.5);
                 Toast.makeText(v.getContext(), "Mode Difficile.", Toast.LENGTH_SHORT).show();
                 startActivity(intent);
             }
@@ -67,8 +71,10 @@ public class game_choice extends AppCompatActivity {
         Expert.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(v.getContext(), color_memory.class);
-                intent.putExtra("GameMode", 3);
+                final Intent intent = new Intent(v.getContext(), color_memory.class);
+                intent.putExtra("nb_bloc_start",4);
+                intent.putExtra("nb_bloc_4_win",12);
+                intent.putExtra("poids_du_mode",(double) 2);
                 Toast.makeText(v.getContext(), "Mode Expert.", Toast.LENGTH_SHORT).show();
                 startActivity(intent);
             }
@@ -77,8 +83,12 @@ public class game_choice extends AppCompatActivity {
         Chrono.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(v.getContext(), color_memory.class);
-                intent.putExtra("GameMode", 4);
+                final Intent intent = new Intent(v.getContext(), color_memory.class);
+                intent.putExtra("nb_bloc_start",1);
+                intent.putExtra("nb_bloc_4_win",8);
+                intent.putExtra("default_life",3);
+                intent.putExtra("poids_du_mode", 1.5);
+                intent.putExtra("chrono",true);
                 Toast.makeText(v.getContext(), "Mode Chrono.", Toast.LENGTH_SHORT).show();
                 startActivity(intent);
             }

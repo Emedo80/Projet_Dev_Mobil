@@ -27,4 +27,9 @@
     <string name="user">User :</string>
     <string name="username">Username</string>
     <string name="score">Score :</string>
+    <string name="start"> START !</string>
+    <string name="round">Round : </string>
+    <string name="life">Life : </string>
+    <string name="level">Level : </string>
+    <string name="couleur">Couleur :</string>
 </resources>
