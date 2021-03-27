@@ -96,28 +96,18 @@ public class color_memory extends AppCompatActivity {
             button.setGravity(Gravity.CENTER);
             button.setBackgroundColor(arrayColor[i]);
 
-            // Force the views to a nice size (150x100 px) that fits my display.
-            // This should of course be done in a display size independent way.
             FrameLayout.LayoutParams lp = new FrameLayout.LayoutParams((int)(size*0.30),(int) (size*0.15));
 
-            // Place all views in the center of the layout. We'll transform them
-            // away from there in the code below.
             lp.gravity = Gravity.CENTER;
 
-            // Set layout params on view.
             button.setLayoutParams(lp);
 
-            // Calculate the angle of the current view. Adjust by 90 degrees to
-            // get View 0 at the top. We need the angle in degrees and radians.
             float angleDeg = i * 360.0f / numButton - 90.0f;
             float angleRad = (float)(angleDeg * Math.PI / 180.0f);
 
-            // Calculate the position of the view, offset from center (300 px from
-            // center). Again, this should be done in a display size independent way.
             button.setTranslationX((int)(size*0.3 * (float)Math.cos(angleRad)));
             button.setTranslationY((int)(size*0.3 * (float)Math.sin(angleRad)));
 
-            // Set the rotation of the view.
             button.setRotation(angleDeg + 90.0f);
             main.addView(button);
         }
@@ -131,8 +121,20 @@ public class color_memory extends AppCompatActivity {
         stage.setText(getString(R.string.niveau) + this.stage);
 
         Log.e("score", String.valueOf(this.score));
-        //Setup class
-        final GameLib game = new GameLib(defaultColor, winCondition, defaultLife, buttons, factor, arrayColor, this.stage, score, life, start, palier, this.score);
+
+        final GameLib game = new GameLib(
+                defaultColor,
+                winCondition,
+                defaultLife,
+                buttons,
+                factor,
+                arrayColor,
+                this.stage,
+                score,
+                life,
+                start,
+                palier,
+                this.score);
 
 
         Thread thread = new Thread(){
