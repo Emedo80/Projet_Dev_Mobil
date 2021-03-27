@@ -61,71 +61,59 @@ public class inscrip extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();
 
-        mDisplayDate.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Calendar cal = Calendar.getInstance();
-                int Year = cal.get(Calendar.YEAR);
-                int Month = cal.get(Calendar.MONTH);
-                int Day = cal.get(Calendar.DAY_OF_MONTH);
+        mDisplayDate.setOnClickListener(v -> {
+            Calendar cal = Calendar.getInstance();
+            int Year = cal.get(Calendar.YEAR);
+            int Month = cal.get(Calendar.MONTH);
+            int Day = cal.get(Calendar.DAY_OF_MONTH);
 
-                DatePickerDialog dialog = new DatePickerDialog(
-                  inscrip.this,
-                  android.R.style.Theme_Holo_Light_Dialog_MinWidth,
-                  onDateSetListener,
-                  Year,Month,Day);
-                dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-                dialog.show();
-            }
+            DatePickerDialog dialog = new DatePickerDialog(
+              inscrip.this,
+              android.R.style.Theme_Holo_Light_Dialog_MinWidth,
+              onDateSetListener,
+              Year,Month,Day);
+            dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+            dialog.show();
         });
 
-        onDateSetListener = new DatePickerDialog.OnDateSetListener() {
-            @Override
-            public void onDateSet(DatePicker view, int Year, int Month, int Day) {
-               Month = Month + 1;
-               Log.d(TAG, "onDateSet: dd/mm/yyyy" + Day + "/" + Month + "/" + Year);
+        onDateSetListener = (view, Year, Month, Day) -> {
+           Month = Month + 1;
+           Log.d(TAG, "onDateSet: dd/mm/yyyy" + Day + "/" + Month + "/" + Year);
 
-               String date = Day + "/" + Month + "/" + Year;
-               mDisplayDate.setText(date);
-            }
+           String date = Day + "/" + Month + "/" + Year;
+           mDisplayDate.setText(date);
         };
 
-        Valid_button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if ( v_pass.getText().toString().equals(v_verif_pass.getText().toString()) ) {
-                    addUser(v_email.getText().toString(), v_pass.getText().toString());
-                }
-                else {
-                    Toast.makeText(v.getContext(), "Mots de passes pas identique!", Toast.LENGTH_SHORT).show();
-                }
-
+        Valid_button.setOnClickListener(v -> {
+            if ( v_pass.getText().toString().equals(v_verif_pass.getText().toString()) ) {
+                addUser(v_email.getText().toString(), v_pass.getText().toString());
             }
+            else {
+                Toast.makeText(v.getContext(), "Mot de passe eronné!", Toast.LENGTH_SHORT).show();
+            }
+
         });
     }
 
     public void addUser(String email, String password){
-        mAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if (task.isSuccessful()) {
-                            // Sign in success, update UI with the signed-in user's information
-                            FirebaseUser user = mAuth.getCurrentUser();
-                            addData(mAuth.getUid());
-                            Log.d(TAG, "createUserWithEmail:success");
+        mAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(this, task -> {
+            if (task.isSuccessful()) {
+                // Sign in success, update UI with the signed-in user's information
+                FirebaseUser user = mAuth.getCurrentUser();
+                addData(mAuth.getUid());
+                Log.d(TAG, "createUserWithEmail:success");
 
-                            //updateUI(user);
-                        } else {
-                            // If sign in fails, display a message to the user.
-                            Log.w(TAG, "createUserWithEmail:failure", task.getException());
-                            Toast.makeText(inscrip.this, "Erreur lors de l'inscription",
-                                    Toast.LENGTH_SHORT).show();
-                            //updateUI(null);
-                        }
+                //updateUI(user);
+            } else {
+                // If sign in fails, display a message to the user.
+                Log.w(TAG, "createUserWithEmail:failure", task.getException());
+                Toast.makeText(inscrip.this, "Erreur lors de l'inscription",
+                        Toast.LENGTH_SHORT).show();
+                //updateUI(null);
+            }
 
-                        // ...
-                    }
-                });
+            // ...
+        });
     }
 
     public void addData(String idUser){
@@ -145,21 +133,13 @@ public class inscrip extends AppCompatActivity {
         }
 
         // Add a new document with a generated ID
-        db.collection("users").document(idUser).set(user).addOnSuccessListener(new OnSuccessListener<Void>() {
-            @Override
-            public void onSuccess(Void avoid) {
-                Log.d(TAG, "DocumentSnapshot added with ID: ");
-                Intent intent = new Intent(inscrip.this, MainActivity.class);
-                Toast.makeText(inscrip.this, "Inscription réussi.", Toast.LENGTH_SHORT).show();
-                startActivity(intent);
-            }
+        db.collection("users").document(idUser).set(user).addOnSuccessListener(avoid -> {
+            Log.d(TAG, "DocumentSnapshot added with ID: ");
+            Intent intent = new Intent(inscrip.this, MainActivity.class);
+            Toast.makeText(inscrip.this, "Inscription réussie.", Toast.LENGTH_SHORT).show();
+            startActivity(intent);
         })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Log.w(TAG, "Error adding document", e);
-                    }
-                });
+                .addOnFailureListener(e -> Log.w(TAG, "Error adding document", e));
 
     }
 }

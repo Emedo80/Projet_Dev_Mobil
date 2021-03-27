@@ -1,5 +1,6 @@
 package fr.iut.projet_dev_mobil;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -9,7 +10,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Gravity;
-import android.view.View;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.TextView;
@@ -36,68 +36,63 @@ public class color_memory extends AppCompatActivity {
     private FirebaseFirestore db;
     String TAG="BDD_Android";
     String userId;
-
-    private int nb_bloc_start;
-    private int nb_bloc_4_win;
-    private int default_life;
-    private double poids_du_mode;
+    private int defaultColor;
+    private int winCondition;
+    private double factor;
+    private int defaultLife;
+    private int stage;
     public double score;
-    private boolean chrono;
-    private int lvl;
 
+    @SuppressLint("SetTextI18n")
     protected void onCreate(Bundle savedInstanceState)
     {
 
         mAuth = FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();
 
-        int numButton;
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_color_memory);
 
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
-            nb_bloc_start = extras.getInt("nb_bloc_start");
-            nb_bloc_4_win = extras.getInt("nb_bloc_4_win");
-            default_life = extras.getInt("default_life",2);
-            poids_du_mode = extras.getDouble("poids_du_mode");
-            lvl = extras.getInt("lvl",1);
-            score = extras.getDouble("score",0);
-            chrono = extras.getBoolean("chrono",false);
+            defaultColor = extras.getInt("defaultColor");
+            winCondition = extras.getInt("winCondition");
+            factor = extras.getDouble("factor");
+            defaultLife = extras.getInt("defaultLife",2);
+            this.stage = extras.getInt("stage",1);
+            this.score = extras.getDouble("score",0);
         }
 
-        if(chrono)
-            findViewById(R.id.timer).setVisibility(View.VISIBLE);
+        int numButton = this.stage + 3;
 
-        numButton = lvl + 3;
+        final int[] arrayColor = {
+                Color.rgb(255, 241, 0), // Process yellow
+                Color.rgb(0, 24, 143), //Blue 286
+                Color.rgb(232, 17, 35), //Red 185
+                Color.rgb(0, 158, 73), //Green 355
+                Color.rgb(236, 0, 140), //Process magenta
+                Color.rgb(255, 140, 0), //Orange 144
+                Color.rgb(0, 188, 242), //Process cyan
+                Color.rgb(0, 178, 148), //Teal 3275
+                Color.rgb(104, 33, 122), //Purple 526
+                Color.rgb(186, 216, 10), //Lime 382
+        };
 
-        final int[] arrayColor = {Color.RED, Color.GREEN, Color.BLUE, Color.YELLOW,Color.CYAN,Color.MAGENTA,Color.rgb(255,102,204),Color.rgb(102,51,51),Color.rgb(51,51,0),Color.rgb(102,153,153)};
         List<Button> buttons = new ArrayList<>();
 
         final FrameLayout main = findViewById(R.id.main);
-
-
         DisplayMetrics displayMetrics = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
         int height = displayMetrics.heightPixels;
         int width = displayMetrics.widthPixels;
-        int size;
-        if(height<=width){
-            size = height;
-        }else{
-            size =width;
-        }
-
+        int size = Math.min(height, width);
 
 
         for(int i = 0; i < numButton; i++)
         {
-            /* Create some quick TextViews that can be placed. */
+            //Définition de l'emplacement et de la couleur des boutons
             Button button = new Button(this);
             buttons.add(button);
-
-            // Set a text and center it in each view.
-            button.setText(getString(R.string.couleur)+ i);
             button.setGravity(Gravity.CENTER);
             button.setBackgroundColor(arrayColor[i]);
 
@@ -120,30 +115,26 @@ public class color_memory extends AppCompatActivity {
             // Calculate the position of the view, offset from center (300 px from
             // center). Again, this should be done in a display size independent way.
             button.setTranslationX((int)(size*0.3 * (float)Math.cos(angleRad)));
-            button.setTranslationY((int)(size*0.3   * (float)Math.sin(angleRad)));
+            button.setTranslationY((int)(size*0.3 * (float)Math.sin(angleRad)));
 
             // Set the rotation of the view.
             button.setRotation(angleDeg + 90.0f);
             main.addView(button);
         }
 
-        //Get some shit on layout
-        TextView lbl_score = findViewById(R.id.lbl_score);
-        TextView lbl_life = findViewById(R.id.lbl_life);
-        Button btn_start = findViewById(R.id.btn_start);
-        TextView lbl_round = findViewById(R.id.lbl_round);
-        TextView lbl_timer = findViewById(R.id.timer);
+        TextView score = findViewById(R.id.score);
+        TextView life = findViewById(R.id.life);
+        TextView palier = findViewById(R.id.palier);
+        TextView stage = findViewById(R.id.stage);
+        Button start = findViewById(R.id.start);
 
-        TextView lbl_lvl = findViewById(R.id.lbl_lvl);
-        lbl_lvl.setText(getString(R.string.level) + lvl);
+        stage.setText(getString(R.string.niveau) + this.stage);
 
-        Log.e("score", String.valueOf(score));
+        Log.e("score", String.valueOf(this.score));
         //Setup class
-        final GameLib game = new GameLib(nb_bloc_start,nb_bloc_4_win, default_life, poids_du_mode, buttons, arrayColor, lvl, lbl_score, lbl_life, btn_start,  lbl_round,score,chrono,lbl_timer);
+        final GameLib game = new GameLib(defaultColor, winCondition, defaultLife, buttons, factor, arrayColor, this.stage, score, life, start, palier, this.score);
 
 
-
-        //quantique
         Thread thread = new Thread(){
             public void run(){
                 do {
@@ -157,10 +148,10 @@ public class color_memory extends AppCompatActivity {
                 if(game.getWin()){
                     //get next view  for game
                     final Intent startGame = getIntent();
-                    startGame.putExtra("lvl",lvl+1);
+                    startGame.putExtra("stage", color_memory.this.stage +1);
                     startGame.putExtra("score", game.getScore());
                     CheckScore((int) game.getScore());
-                    startActivityForResult(startGame,lvl+1);
+                    startActivityForResult(startGame, color_memory.this.stage +1);
                     Log.i("scorend", String.valueOf(game.getScore()));
                 }else{
                     Intent intent = new Intent();
@@ -168,8 +159,6 @@ public class color_memory extends AppCompatActivity {
                     setResult(RESULT_OK, intent);
                     finish();
                 }
-
-
             }
         };
 
@@ -180,7 +169,7 @@ public class color_memory extends AppCompatActivity {
 
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == lvl+1) {
+        if (requestCode == stage +1) {
             if(resultCode == RESULT_OK) {
                 boolean exit = data.getExtras().getBoolean("exit");
                 if(exit){
@@ -203,26 +192,21 @@ public class color_memory extends AppCompatActivity {
 
     }
 
+    //Partie base de données pour le score
     public void CheckScore(int Score){
         userId = mAuth.getCurrentUser().getUid();
         DocumentReference reference = db.collection("users").document(userId);
-        reference.addSnapshotListener(this, new EventListener<DocumentSnapshot>() {
-            @Override
-            public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
-                if (value.exists()) {
+        reference.addSnapshotListener(this, (value, error) -> {
+            if (value.exists()) {
 
-                    if (Score > Integer.parseInt(value.getData().get("score").toString())){
-                        Map<String, Object> user = new HashMap<>();
-                        user.put("score", Score);
+                if (Score > Integer.parseInt(value.getData().get("score").toString())){
+                    Map<String, Object> user = new HashMap<>();
+                    user.put("score", Score);
 
-                        db.collection("users").document(userId).update(user).addOnSuccessListener(new OnSuccessListener<Void>() {
-                            @Override
-                            public void onSuccess(Void avoid) {
-                                Log.d(TAG, "DocumentSnapshot added with ID: ");
-                                Toast.makeText(color_memory.this, "Score changer", Toast.LENGTH_SHORT).show();
-                            }
-                        });
-                    }
+                    db.collection("users").document(userId).update(user).addOnSuccessListener(avoid -> {
+                        Log.d(TAG, "DocumentSnapshot added with ID: ");
+                        Toast.makeText(color_memory.this, "Score changer", Toast.LENGTH_SHORT).show();
+                    });
                 }
             }
         });

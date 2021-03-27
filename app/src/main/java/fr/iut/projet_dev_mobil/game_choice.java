@@ -24,7 +24,7 @@ public class game_choice extends AppCompatActivity {
 
     String userId;
     TextView v_name,v_score;
-    Button Facile,Difficile,Expert,Chrono;
+    Button Facile,Difficile,Expert;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,72 +39,46 @@ public class game_choice extends AppCompatActivity {
         Facile=findViewById(R.id.BoutonFacile);
         Difficile=findViewById(R.id.BoutonDifficile);
         Expert=findViewById(R.id.BoutonExpert);
-        Chrono=findViewById(R.id.BoutonChrono);
 
         readData();
 
 
-        Facile.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                final Intent intent = new Intent(v.getContext(), color_memory.class);
-                intent.putExtra("nb_bloc_start",1);
-                intent.putExtra("nb_bloc_4_win",7);
-                intent.putExtra("poids_du_mode",(double) 1);
-                Toast.makeText(v.getContext(), "Mode Facile.", Toast.LENGTH_SHORT).show();
-                startActivity(intent);
-            }
+        Facile.setOnClickListener(v -> {
+            final Intent intent = new Intent(v.getContext(), color_memory.class);
+            intent.putExtra("nb_bloc_start",1);
+            intent.putExtra("nb_bloc_4_win",7);
+            intent.putExtra("poids_du_mode",(double) 1);
+            Toast.makeText(v.getContext(), "Mode Facile.", Toast.LENGTH_SHORT).show();
+            startActivity(intent);
         });
 
-        Difficile.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                final Intent intent = new Intent(v.getContext(), color_memory.class);
-                intent.putExtra("nb_bloc_start",3);
-                intent.putExtra("nb_bloc_4_win",10);
-                intent.putExtra("poids_du_mode", 1.5);
-                Toast.makeText(v.getContext(), "Mode Difficile.", Toast.LENGTH_SHORT).show();
-                startActivity(intent);
-            }
+        Difficile.setOnClickListener(v -> {
+            final Intent intent = new Intent(v.getContext(), color_memory.class);
+            intent.putExtra("nb_bloc_start",3);
+            intent.putExtra("nb_bloc_4_win",10);
+            intent.putExtra("poids_du_mode", 1.5);
+            Toast.makeText(v.getContext(), "Mode Difficile.", Toast.LENGTH_SHORT).show();
+            startActivity(intent);
         });
 
-        Expert.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                final Intent intent = new Intent(v.getContext(), color_memory.class);
-                intent.putExtra("nb_bloc_start",4);
-                intent.putExtra("nb_bloc_4_win",12);
-                intent.putExtra("poids_du_mode",(double) 2);
-                Toast.makeText(v.getContext(), "Mode Expert.", Toast.LENGTH_SHORT).show();
-                startActivity(intent);
-            }
+        Expert.setOnClickListener(v -> {
+            final Intent intent = new Intent(v.getContext(), color_memory.class);
+            intent.putExtra("nb_bloc_start",4);
+            intent.putExtra("nb_bloc_4_win",12);
+            intent.putExtra("poids_du_mode",(double) 2);
+            Toast.makeText(v.getContext(), "Mode Expert.", Toast.LENGTH_SHORT).show();
+            startActivity(intent);
         });
 
-        Chrono.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                final Intent intent = new Intent(v.getContext(), color_memory.class);
-                intent.putExtra("nb_bloc_start",1);
-                intent.putExtra("nb_bloc_4_win",8);
-                intent.putExtra("default_life",3);
-                intent.putExtra("poids_du_mode", 1.5);
-                intent.putExtra("chrono",true);
-                Toast.makeText(v.getContext(), "Mode Chrono.", Toast.LENGTH_SHORT).show();
-                startActivity(intent);
-            }
-        });
     }
 
     public void readData(){
         userId = mAuth.getCurrentUser().getUid();
         DocumentReference reference = db.collection("users").document(userId);
-        reference.addSnapshotListener(this, new EventListener<DocumentSnapshot>() {
-            @Override
-            public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
-                if (value.exists()) {
-                    v_name.setText(value.getData().get("Prenom").toString());
-                    v_score.setText(value.getData().get("score").toString());
-                }
+        reference.addSnapshotListener(this, (value, error) -> {
+            if (value.exists()) {
+                v_name.setText(value.getData().get("Prenom").toString());
+                v_score.setText(value.getData().get("score").toString());
             }
         });
     }

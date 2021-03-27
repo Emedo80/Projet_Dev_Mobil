@@ -27,7 +27,8 @@
         android:inputType="textPassword"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@+id/guideline4"
-        app:layout_constraintTop_toBottomOf="@+id/v_emailConnect" />
+        app:layout_constraintTop_toBottomOf="@+id/v_emailConnect"
+        tools:ignore="LabelFor" />
 
     <TextView
         android:id="@+id/emailConnnect"
@@ -66,10 +67,11 @@
         android:autofillHints=""
         android:ems="10"
         android:inputType="textWebEmailAddress"
-        android:text="test1@test.net"
+        android:text="@string/mail"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@+id/guideline4"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="LabelFor" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline4"

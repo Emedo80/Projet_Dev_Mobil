@@ -13,7 +13,6 @@
     <string name="mot_de_passe">Mot de passe</string>
     <string name="connexion">Connexion</string>
     <string name="facile">Facile</string>
-    <string name="chrono">Chrono</string>
     <string name="expert">Expert</string>
     <string name="difficile">Difficile</string>
     <string name="modes_de_jeu">Modes de jeu</string>
@@ -22,14 +21,19 @@
     <string name="green">Green</string>
     <string name="yellow">Yellow</string>
     <string name="blue">Blue</string>
-    <string name="exemple_email">exemple@exemple.com</string>
+    <string name="exemple_email">example@example.com</string>
     <string name="dd_mm_yyyy">DD/MM/YYYY</string>
     <string name="user">User :</string>
     <string name="username">Username</string>
-    <string name="score">Score :</string>
-    <string name="start"> START !</string>
-    <string name="round">Round : </string>
-    <string name="life">Life : </string>
-    <string name="level">Level : </string>
+    <string name="score">Points :</string>
+    <string name="start"> Jouer </string>
     <string name="couleur">Couleur :</string>
+    <string name="jouer">Jouer</string>
+    <string name="niveau">Niveau :</string>
+    <string name="vies">vies :</string>
+    <string name="palier">palier :</string>
+    <string name="points">points</string>
+    <string name="mail">adresse@mail.com</string>
+    <string name="scorepoints">ScorePoints</string>
+    <string name="chrono_indisponible">chrono (indisponible)</string>
 </resources>

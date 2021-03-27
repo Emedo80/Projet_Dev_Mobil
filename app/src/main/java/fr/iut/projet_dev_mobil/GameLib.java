@@ -1,9 +1,9 @@
 package fr.iut.projet_dev_mobil;
 
 
+//import android.annotation.SuppressLint;
 import android.annotation.SuppressLint;
 import android.graphics.Color;
-import android.os.CountDownTimer;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -13,54 +13,27 @@ import java.util.List;
 import java.util.Random;
 
 public class GameLib {
+    private final int [] colors = new int[50];
     private int checkPosition =0;
     private int roundCounter = 0 ;
-    private final int [] colors = new int[50];
-    private int secuencePosition = 0;
+    private int Position = 0;
+    private int life;
     private final double def_score;
     private double score = 0;
-    private boolean vivant = false;
-    private int life;
-    private boolean win =false;
-
-    //MODE CHRONO ONLY
-    private final boolean chrono;
-    private long timerSec = 0;
-    private final TextView lbl_timer;
-    private CountDownTimer timer;
-
-
-    //Declaration of buttons:
-   /* public Button btnBlue;
-    public Button btnGreen;
-    public Button btnYellow;
-    public Button btnRed;
-    private Button btnStart;
-*/
-
-    private final TextView lbl_life;
-    private final Button btn_start;
-   // private Button btn_new;
-    private final TextView lbl_round;
-
-
-    //Scoreboards / txt info
+    private boolean alive = false;
+    private boolean win = false;
+    private boolean end = false;
+    private final TextView labelLife;
+    private final TextView labelPalier;
+    private final Button buttonStart;
     private final TextView score_value;
-
     private final TextView life_TextView;
 
+    private final int defaultColor;
+    private final int winCondition;
+    private final int palier;
 
-    private boolean end = false;
-
-
-
-
-    //Need config
-    private final int nb_bloc_start;
-    private final int nb_bloc_4_win;
-    private final int lvl;
-
-    private final double poids_du_mode;
+    private final double factor;
 
     //list of gaming buttons
     private final List<Button> buttons;
@@ -68,57 +41,43 @@ public class GameLib {
     private final int[] arrayColor;
 
 
-
-
     @SuppressLint("SetTextI18n")
-    GameLib(int nb_bloc_start, int nb_bloc_4_win, int default_life, double poids_du_mode, List<Button> buttons, int[] arrayColor, int lvl, TextView lbl_score, TextView lbl_life, Button btn_start, TextView lbl_round, double score, boolean chrono, TextView lbl_timer) {
-      //  super.onCreate(savedInstanceState);
-       // setContentView(R.layout.game);
+    GameLib(int defaultColor,
+            int winCondition,
+            int defaultLife,
+            List<Button> buttons,
+            double factor,
+            int[] arrayColor,
+            int palier,
+            TextView labelScore,
+            TextView labelLife,
+            Button buttonStart,
+            TextView labelPalier,
+            double score) {
 
-        life = default_life;
-        this.nb_bloc_start = nb_bloc_start;
-        this.nb_bloc_4_win = nb_bloc_4_win;
 
-        this.poids_du_mode = poids_du_mode;
+        life = defaultLife;
+        this.defaultColor = defaultColor;
+        this.winCondition = winCondition;
+        this.factor = factor;
         this.buttons = buttons;
         this.arrayColor = arrayColor;
-
-        this.lvl = lvl;
-
-
-        this.lbl_life = lbl_life ;
-        this.btn_start = btn_start;
-       // this.btn_new = btn_new;
-        this.lbl_round = lbl_round;
-
-
+        this.palier = palier;
+        this.labelLife = labelLife;
+        this.buttonStart = buttonStart;
+        this.labelPalier = labelPalier;
         this.def_score = score;
-
-        this.chrono = chrono;
-        this.lbl_timer = lbl_timer;
-        //The value of the buttons and scoreboard is asigned by its id in the content_main.xml file
-        //fetchButtons();
-
-      //  buttons = Arrays.asList(btnBlue, btnGreen, btnYellow, btnRed);
 
         checkSiButtonExist();
 
-
-        //Set score
-        score_value = lbl_score;
-        score_value.setText("SCORE:" + score);
-
-        //Set life
-        life_TextView = lbl_life;
+        score_value = labelScore;
+        score_value.setText("points :" + score);
+        life_TextView = labelLife;
 
 
-        btn_start.setVisibility(View.INVISIBLE);
+        buttonStart.setVisibility(View.INVISIBLE);
 
-
-
-        //Manages button activation
         int i = 0;
-        //loop sur tout les bouttons
         for (final Button myButton : buttons) {
             final int  myColor = arrayColor[i];
             myButton.setBackgroundColor(myColor);
@@ -126,77 +85,21 @@ public class GameLib {
             i++;
         }
 
-        //Manages start button activation
-        btn_start.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-
-            public void onClick(View view) {
-                newSequence();
-
-            }
-
-        });
-
-        //Manages new game button activation
-        /*btn_new.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-
-            public void onClick(View view) {
-                newGame();
-            }
-        });*/
+        buttonStart.setOnClickListener(view -> newSequence());
 
         newGame();
 
-
-        //Manages button activation
         i = 0;
-        //loop sur tout les bouttons
+
         for (final Button myButton : buttons) {
             final int  myColor = arrayColor[i];
 
-            //set event onclick
-            myButton.setOnClickListener(new View.OnClickListener() {
-
-                @Override
-
-                public void onClick(View view) {
-
-                    colorCheck(myColor);
-                    colorHighlight(myButton);
-                }
-
+            myButton.setOnClickListener(view -> {
+                colorCheck(myColor);
+                colorHighlight(myButton);
             });
             i++;
         }
-
-    /*    final int final_nb_bloc_4_win = nb_bloc_4_win;
-        final Button final_btn_start = btn_start;
-
-
-
-
-
-        btnStart.setOnClickListener(new View.OnClickListener() {
-            @Override
-
-            public void onClick(View view) {
-
-                // 4 the win :
-                if (vivant && roundCounter == final_nb_bloc_4_win) {
-                    final Button message =  final_btn_start;
-                    win = true;
-                    message(message, "You WIN");
-
-                }else {
-                    newSequence();
-                }
-            }
-
-        });*/
-
 
 
         Thread thread = new Thread(){
@@ -204,17 +107,10 @@ public class GameLib {
 
             }
         };
-
         thread.start();
-
-
     }
 
-
-
-
-
-    //Verif si les button existe
+    //Vérification de l'existance des boutons
     private void checkSiButtonExist() {
         for (Button button : buttons) {
             String checking = button.getText().toString();
@@ -222,12 +118,13 @@ public class GameLib {
         }
     }
 
-    //creer la sequence du  simon
+    //Création de la séquence du jeu
+    @SuppressLint("SetTextI18n")
     private void newSequence() {
         // 4 the win :
-        if (vivant && roundCounter == nb_bloc_4_win) {
+        if (alive && roundCounter == winCondition) {
             win = true;
-            message(btn_start, "You WIN");
+            message(buttonStart, "Gagné !");
             end();
 
         }else {
@@ -236,452 +133,195 @@ public class GameLib {
 
             int[] possibleColors = arrayColor;
 
-
-
-            //Setup tour 1 avec le  nb_bloc_start
+            //Setup tour 1 avec le defaultColor
             if (roundCounter == 0) {
-                for (int i = 0; i < nb_bloc_start; i++) {
+                for (int i = 0; i < defaultColor; i++) {
                     colors[roundCounter] = possibleColors[rd.nextInt(buttons.size())];
                     roundCounter++;
                 }
             } else{
-                //creer une nouvelle couleurs est l ajoute au tableau au numero du round
+                //Création d'une nouvelle couleur et l'ajoute au tableau au numéro correspondant à l'indice du palier
                 colors[roundCounter] = possibleColors[rd.nextInt(buttons.size())];
-
-
                 roundCounter++;
             }
-
-            //Gere affichage du round
-            lbl_round.setText("ROUND: " + (roundCounter));
-
-
-            //Affiche la séquence
+            labelPalier.setText("Palier : " + (roundCounter));
             setSequence();
-
-            vivant =true;
-
+            alive =true;
             checkPosition =0;
         }
-
-
-
-
     }
 
-
-
-
-    //Affiche la sequence sur le boutton
+    //Affiche les couleurs sur le boutons
     private void setSequence(){
 
-        final View background= btn_start;
+        final View background= buttonStart;
 
         showSequence(background);
 
+        background.postDelayed(() -> {
 
+            updateBackground(Color.GRAY);
 
+            background.setAlpha(1f);
 
-        //set le boutton à gris et active les autres boutton
-        background.postDelayed(new Runnable() {
-
-            @Override
-
-            public void run() {
-
-                updateBackground(Color.GRAY);
-
-                background.setAlpha(1f);
-
-
-                for(Button myButton: buttons){
-                    myButton.setEnabled(true);
-                }
-
+            for(Button myButton: buttons){
+                myButton.setEnabled(true);
             }
-
         },(roundCounter +1)*500);
 
-        if(chrono) {
-            Log.i("Chrono :", "on");
-            timerSec = roundCounter*2*1000+1000;
-            startTimer();
-
-        }
-
-        //Disable le button start
-        btn_start.setEnabled(false);
+        buttonStart.setEnabled(false);
 
     }
 
-    private void startTimer(){
-
-        timer = new CountDownTimer(timerSec,100){
-            @Override
-            public void onTick(long millisUntilFinished) {
-                timerSec = millisUntilFinished;
-                updateTimer();
-            }
-
-            @Override
-            public void onFinish() {
-                life--;
-                //sinon mauvaise couleur vivant = faux (on meurt)
-                life_TextView.setText("life :" + life);
-                if (life <= 0)
-                    vivant = false;
-                if (life > 0)
-                    newGame();
-                isDead();
-            }
-        }.start();
-    }
-    private void pauseTimer(){
-        timer.cancel();
-    }
-
-    private void updateTimer() {
-        lbl_timer.setText(String.valueOf(timerSec).substring(0,String.valueOf(timerSec).length()-2));
-
-    }
-
-
-    //change le background du buttonStart
+    //change le fond du buttonStart
     private void updateBackground(int color){
 
-         btn_start.setBackgroundColor(color);
+         buttonStart.setBackgroundColor(color);
 
     }
 
-
-
-    //cette methode commence le jeux
+    @SuppressLint("SetTextI18n")
     private void newGame() {
-        //Set le background du start à gris
-        Button startButton = btn_start;
+        Button startButton = buttonStart;
         startButton.setBackgroundColor(Color.GRAY);
-
-        //reset les score et round
         roundCounter = 0;
         score = def_score;
-
-
-        //Affiche le score
-        score_value.setText("SCORE: " + score);
-
-        //Affiche les vie
-        life_TextView.setText("Life :" + life);
-
-        //active le btn start
+        score_value.setText("Points : " + score);
+        life_TextView.setText("Vies :" + life);
         startButton.setEnabled(true);
         startButton.setVisibility(View.VISIBLE);
-
-        //Affiche le round
-        lbl_round.setText("ROUND: " + roundCounter);
+        labelPalier.setText("Palier : " + roundCounter);
 
     }
 
 
-    //Verif si la couleur clicker est correct sinon affiche win/lose
+    //Verification de la couleur du jeu et celle choisie par le joueur
+    @SuppressLint("SetTextI18n")
     private void colorCheck(int color) {
-
-
-        //verif si game a start et non mort
-        if (vivant) {
-            //Si la couleur bonne
+        if (alive) {
             if (color == colors[checkPosition]) {
-                //bonne couleur : possition+1. Ajout de point au score et affiche le score
                 checkPosition++;
-                // score += 10;
-                // score_value.setText("SCORE: " + score);
 
             } else {
-                if(chrono)
-                    pauseTimer();
-                //sinon mauvaise couleur vivant = faux (on meurt)
                 life--;
-                life_TextView.setText("life :" + life);
+                life_TextView.setText("Vies :" + life);
                 if (life <= 0)
-                    vivant = false;
+                    alive = false;
                 if (life > 0)
                     newGame();
             }
-
             isDead();
 
 
         }
     }
+    @SuppressLint("SetTextI18n")
     private void isDead(){
-            //si on est pas mort ajouts des points et désactivation des button
-            if (checkPosition == roundCounter && vivant) {
-                if(chrono)
-                    pauseTimer();
-                //Ajout au score 2* le round
-                // Log.v("SCORE : " , lvl +"*"+poids_du_mode );
-                score += lvl * poids_du_mode;
-                //actualise le score
-                score_value.setText("SCORE: " + score);
-
+            if (checkPosition == roundCounter && alive) {
+                score += palier * factor;
+                score_value.setText("Points : " + score);
 
                 newSequence();
 
-                /*//Active le button start
-                startButton.setEnabled(true);*/
-                //Disable les button de "jeux"
                 for (Button myButton : buttons)
                     myButton.setEnabled(false);
             }
 
-            // Si mort :
-
-        if(!vivant && roundCounter >0){
-            if(chrono)
-                pauseTimer();
-            message(btn_start,"You lose");
-
+        if(!alive && roundCounter >0){
+            message(buttonStart,"Game over");
             end();
-
         }
-
     }
-
 
     private void end(){
            end =  true;
     }
 
+    @SuppressLint("SetTextI18n")
+    private void message(final Button startButton, final String msg){
+        startButton.postDelayed(() -> {
 
-    //Send des MSG fin de partie avec le boutton "start"
-    private void message(final Button startButton,final String msg){
-        startButton.postDelayed(new Runnable() {
+            for(Button myButton: buttons)
+                myButton.setVisibility(View.INVISIBLE);
 
-            @Override
+            labelPalier.setVisibility(View.INVISIBLE);
 
-            public void run() {
+            labelLife.setVisibility(View.INVISIBLE);
 
-                //Efface les buttons de "jeux"
-                for(Button myButton: buttons)
-                    myButton.setVisibility(View.INVISIBLE);
-
-
-                //Efface le lbl round
-                lbl_round.setVisibility(View.INVISIBLE);
-
-                //Efface le lbl Life
-                lbl_life.setVisibility(View.INVISIBLE);
-
-                //Affiche you lose sur le button "start"
-                startButton.setBackgroundColor(Color.BLACK);
-                startButton.setTextColor(Color.WHITE);
-                startButton.setText(msg);
-
-            }
+            startButton.setBackgroundColor(Color.BLACK);
+            startButton.setTextColor(Color.WHITE);
+            startButton.setText(msg);
 
         },50);
 
-        startButton.postDelayed(new Runnable() {
+        startButton.postDelayed(() -> {
 
-            @Override
+            startButton.setText("Jouer");
+            startButton.setBackgroundColor(Color.GRAY);
+            startButton.setTextColor(Color.BLACK);
+            TextView t= labelPalier;
+            t.setText("Palier : 0");
+            labelLife.setVisibility(View.VISIBLE);
 
-            public void run() {
+            for(Button myButton: buttons)
+                myButton.setVisibility(View.VISIBLE);
 
-                //reset le button start
-                startButton.setText("Start");
-                startButton.setBackgroundColor(Color.GRAY);
-                startButton.setTextColor(Color.BLACK);
-
-
-                //Affiche le round
-                TextView t= lbl_round;
-                t.setText("ROUND: 0");
-
-                //Efface le lbl Life
-                lbl_life.setVisibility(View.VISIBLE);
-
-                //Set le button de "jeux" sur visible
-                for(Button myButton: buttons)
-                    myButton.setVisibility(View.VISIBLE);
-
-                t.setVisibility(View.VISIBLE);
-
-            }
+            t.setVisibility(View.VISIBLE);
 
         },3500);
 
+        score_value.setText("Points : "+ score);
 
-        //reset l'affichage du score
-        score_value.setText("SCORE: "+ score);
-
-        //Start new Game
-       // newGame();
-
-        //Active le button start
         startButton.setEnabled(true);
 
     }
-
-
-
-    //Highlight start button
     private void showSequence(final View background){
 
-        secuencePosition =0;
-        //Affiche chaque couleur
+        Position =0;
         for(int i = 0; i< roundCounter; i++) {
-
-            //Degrade de couleur
             if (colors[i] != 0) {
-
-                background.postDelayed(new Runnable() {
-
-                    @Override
-
-                    public void run() {
-                        updateBackground(colors[secuencePosition]);
-
-                        background.setAlpha(0.2f);
-
-                    }
+                background.postDelayed(() -> {
+                    updateBackground(colors[Position]);
+                    background.setAlpha(0.2f);
 
                 }, (i+1) * 500);
 
+                background.postDelayed(() -> background.setAlpha(0.5f),(500*(i+1))+100);
 
-                background.postDelayed(new Runnable() {
-
-                    @Override
-
-                    public void run() {
-
-                        background.setAlpha(0.5f);
-
-                    }
-
-                },(500*(i+1))+100);
-
-                background.postDelayed(new Runnable() {
-
-                    @Override
-
-                    public void run() {
-
-                        background.setAlpha(0.9f);
-
-                    }
-
-                },(500*(i+1))+150);
+                background.postDelayed(() -> background.setAlpha(0.9f),(500*(i+1))+150);
 
 
-                background.postDelayed(new Runnable() {
+                background.postDelayed(() -> background.setAlpha(1f),(500*(i+1))+250);
 
-                    @Override
+                background.postDelayed(() -> background.setAlpha(0.9f),(500*(i+1))+350);
 
-                    public void run() {
+                background.postDelayed(() -> background.setAlpha(0.5f),(500*(i+1))+400);
 
-                        background.setAlpha(1f);
+                background.postDelayed(() -> {
 
-                    }
-
-                },(500*(i+1))+250);
-
-                background.postDelayed(new Runnable() {
-
-                    @Override
-
-                    public void run() {
-
-                        background.setAlpha(0.9f);
-
-                    }
-
-                },(500*(i+1))+350);
-
-                background.postDelayed(new Runnable() {
-
-                    @Override
-
-                    public void run() {
-
-                        background.setAlpha(0.5f);
-
-                    }
-
-                },(500*(i+1))+400);
+                    background.setAlpha(0.2f);
 
 
-                background.postDelayed(new Runnable() {
-
-                    @Override
-
-                    public void run() {
-
-                        background.setAlpha(0.2f);
-
-
-                        secuencePosition++;
-                    }
-
+                    Position++;
                 },(500*(i+1))+450);
-
 
             }
         }
     }
 
-
     private void colorHighlight(Button button) {
 
         final Button b = button;
 
-        b.postDelayed(new Runnable() {
+        b.postDelayed(() -> b.setAlpha(0.5f), 0);
 
-            @Override
+        b.postDelayed(() -> b.setAlpha(0.75f), 50);
 
-            public void run() {
-                b.setAlpha(0.5f);
-            }
+        b.postDelayed(() -> b.setAlpha(1f), 100);
 
-        }, 0);
+        b.postDelayed(() -> b.setAlpha(0.75f), 250);
 
-        b.postDelayed(new Runnable() {
-
-            @Override
-
-            public void run() {
-                b.setAlpha(0.75f);
-            }
-
-        }, 50);
-
-        b.postDelayed(new Runnable() {
-
-            @Override
-
-            public void run() {
-                b.setAlpha(1f);
-            }
-
-        }, 100);
-
-        b.postDelayed(new Runnable() {
-
-            @Override
-
-            public void run() {
-                b.setAlpha(0.75f);
-            }
-
-        }, 250);
-
-        b.postDelayed(new Runnable() {
-
-            @Override
-
-            public void run() {
-                b.setAlpha(0.5f);
-            }
-
-        }, 300);
+        b.postDelayed(() -> b.setAlpha(0.5f), 300);
     }
 
 
@@ -697,4 +337,3 @@ public class GameLib {
 }
 
 
-//extrat string

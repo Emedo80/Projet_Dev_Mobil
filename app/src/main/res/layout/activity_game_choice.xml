@@ -19,7 +19,7 @@
         android:id="@+id/v_Score"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="ScorePoints"
+        android:text="@string/scorepoints"
         app:layout_constraintEnd_toEndOf="@+id/v_User"
         app:layout_constraintStart_toStartOf="@+id/v_User"
         app:layout_constraintTop_toBottomOf="@+id/v_User" />
@@ -84,7 +84,7 @@
             android:id="@+id/BoutonChrono"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/chrono"
+            android:text="@string/chrono_indisponible"
             android:textSize="18sp" />
     </LinearLayout>
 
