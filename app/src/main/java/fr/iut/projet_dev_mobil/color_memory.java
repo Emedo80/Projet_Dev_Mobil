@@ -42,6 +42,7 @@ public class color_memory extends AppCompatActivity {
     private int defaultLife;
     private int val_stage;
     public double val_score;
+    public int test = 0;
 
     @SuppressLint("SetTextI18n")
     protected void onCreate(Bundle savedInstanceState)
@@ -151,17 +152,20 @@ public class color_memory extends AppCompatActivity {
 
                 if(game.getWin()){
                     //get next view  for game
+                    if(val_stage > 7){
+                        CheckScore((int) game.getScore());
+                        Toast.makeText(color_memory.this, "vous avez gagné !", Toast.LENGTH_SHORT).show();
+                        Intent intent = new Intent(color_memory.this, game_choice.class);
+                        startActivity(intent);
+                    }
                     final Intent startGame = getIntent();
                     startGame.putExtra("stage", val_stage +1);
                     startGame.putExtra("score", game.getScore());
-                    CheckScore((int) game.getScore());
                     startActivityForResult(startGame, val_stage +1);
-                    Log.i("scorend", String.valueOf(game.getScore()));
                 }else{
-                    Intent intent = new Intent();
-                    intent.putExtra("exit", true);
-                    setResult(RESULT_OK, intent);
-                    finish();
+                    CheckScore((int) game.getScore());
+                    Intent intent = new Intent(color_memory.this, game_choice.class);
+                    startActivity(intent);
                 }
             }
         };
@@ -189,28 +193,37 @@ public class color_memory extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        Intent intent = new Intent();
-        intent.putExtra("exit", true);
-        setResult(RESULT_OK, intent);
-        finish();
-
+        CheckScore((int) val_score);
+        Intent intent = new Intent(color_memory.this, game_choice.class);
+        startActivity(intent);
     }
 
     //Partie base de données pour le score
     public void CheckScore(int Score){
+        mAuth = FirebaseAuth.getInstance();
+        db = FirebaseFirestore.getInstance();
+
         userId = mAuth.getCurrentUser().getUid();
         DocumentReference reference = db.collection("users").document(userId);
-        reference.addSnapshotListener(this, (value, error) -> {
-            if (value.exists()) {
+        reference.addSnapshotListener(this, new EventListener<DocumentSnapshot>() {
+            @Override
+            public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
+                if (value.exists()) {
+                    while (test == 0) {
+                        double scoreTot = Score + (double) value.getLong("score").intValue();
 
-                if (Score > Integer.parseInt(value.getData().get("score").toString())){
-                    Map<String, Object> user = new HashMap<>();
-                    user.put("score", Score);
+                        Map<String, Object> user = new HashMap<>();
+                        user.put("score", scoreTot);
 
-                    db.collection("users").document(userId).update(user).addOnSuccessListener(avoid -> {
-                        Log.d(TAG, "DocumentSnapshot added with ID: ");
-                        Toast.makeText(color_memory.this, "Score changer", Toast.LENGTH_SHORT).show();
-                    });
+                        db.collection("users").document(userId).update(user).addOnSuccessListener(new OnSuccessListener<Void>() {
+                            @Override
+                            public void onSuccess(Void avoid) {
+                                Log.d(TAG, "DocumentSnapshot added with ID: ");
+                                //Toast.makeText(color_memory.this, "Score changer", Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                        test = 1;
+                    }
                 }
             }
         });
