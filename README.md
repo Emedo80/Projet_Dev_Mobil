@@ -1,4 +1,4 @@
-# Projet_Dev_Mobil
+# Projet Développement application mobiles
 
 **Partie 1: Inscription**
 
