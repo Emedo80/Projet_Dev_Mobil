@@ -40,8 +40,8 @@ public class color_memory extends AppCompatActivity {
     private int winCondition;
     private double factor;
     private int defaultLife;
-    private int stage;
-    public double score;
+    private int val_stage;
+    public double val_score;
 
     @SuppressLint("SetTextI18n")
     protected void onCreate(Bundle savedInstanceState)
@@ -53,17 +53,19 @@ public class color_memory extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_color_memory);
 
+        int numButton;
+
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
             defaultColor = extras.getInt("defaultColor");
             winCondition = extras.getInt("winCondition");
             factor = extras.getDouble("factor");
             defaultLife = extras.getInt("defaultLife",2);
-            this.stage = extras.getInt("stage",1);
-            this.score = extras.getDouble("score",0);
+            val_stage = extras.getInt("stage",1);
+            val_score = extras.getDouble("score",0);
         }
 
-        int numButton = this.stage + 3;
+        numButton = val_stage + 3;
 
         final int[] arrayColor = {
                 Color.rgb(255, 241, 0), // Process yellow
@@ -93,6 +95,7 @@ public class color_memory extends AppCompatActivity {
             //Définition de l'emplacement et de la couleur des boutons
             Button button = new Button(this);
             buttons.add(button);
+            button.setText(getString(R.string.couleur)+ i); //
             button.setGravity(Gravity.CENTER);
             button.setBackgroundColor(arrayColor[i]);
 
@@ -118,9 +121,9 @@ public class color_memory extends AppCompatActivity {
         TextView stage = findViewById(R.id.stage);
         Button start = findViewById(R.id.start);
 
-        stage.setText(getString(R.string.niveau) + this.stage);
+        stage.setText(getString(R.string.niveau) + val_stage);
 
-        Log.e("score", String.valueOf(this.score));
+        Log.e("score", String.valueOf(val_score));
 
         final GameLib game = new GameLib(
                 defaultColor,
@@ -129,12 +132,12 @@ public class color_memory extends AppCompatActivity {
                 buttons,
                 factor,
                 arrayColor,
-                this.stage,
+                val_stage,
                 score,
                 life,
                 start,
                 palier,
-                this.score);
+                val_score);
 
 
         Thread thread = new Thread(){
@@ -150,10 +153,10 @@ public class color_memory extends AppCompatActivity {
                 if(game.getWin()){
                     //get next view  for game
                     final Intent startGame = getIntent();
-                    startGame.putExtra("stage", color_memory.this.stage +1);
+                    startGame.putExtra("stage", val_stage +1);
                     startGame.putExtra("score", game.getScore());
                     CheckScore((int) game.getScore());
-                    startActivityForResult(startGame, color_memory.this.stage +1);
+                    startActivityForResult(startGame, val_stage +1);
                     Log.i("scorend", String.valueOf(game.getScore()));
                 }else{
                     Intent intent = new Intent();
@@ -171,7 +174,7 @@ public class color_memory extends AppCompatActivity {
 
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == stage +1) {
+        if (requestCode == val_stage +1) {
             if(resultCode == RESULT_OK) {
                 boolean exit = data.getExtras().getBoolean("exit");
                 if(exit){

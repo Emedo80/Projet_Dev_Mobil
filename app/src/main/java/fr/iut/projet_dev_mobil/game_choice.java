@@ -45,27 +45,27 @@ public class game_choice extends AppCompatActivity {
 
         Facile.setOnClickListener(v -> {
             final Intent intent = new Intent(v.getContext(), color_memory.class);
-            intent.putExtra("nb_bloc_start",1);
-            intent.putExtra("nb_bloc_4_win",7);
-            intent.putExtra("poids_du_mode",(double) 1);
+            intent.putExtra("defaultColor",1);
+            intent.putExtra("winCondition",7);
+            intent.putExtra("factor",(double) 1);
             Toast.makeText(v.getContext(), "Mode Facile.", Toast.LENGTH_SHORT).show();
             startActivity(intent);
         });
 
         Difficile.setOnClickListener(v -> {
             final Intent intent = new Intent(v.getContext(), color_memory.class);
-            intent.putExtra("nb_bloc_start",3);
-            intent.putExtra("nb_bloc_4_win",10);
-            intent.putExtra("poids_du_mode", 1.5);
+            intent.putExtra("defaultColor",3);
+            intent.putExtra("winCondition",10);
+            intent.putExtra("factor", 1.5);
             Toast.makeText(v.getContext(), "Mode Difficile.", Toast.LENGTH_SHORT).show();
             startActivity(intent);
         });
 
         Expert.setOnClickListener(v -> {
             final Intent intent = new Intent(v.getContext(), color_memory.class);
-            intent.putExtra("nb_bloc_start",4);
-            intent.putExtra("nb_bloc_4_win",12);
-            intent.putExtra("poids_du_mode",(double) 2);
+            intent.putExtra("defaultColor",4);
+            intent.putExtra("winCondition",12);
+            intent.putExtra("factor",(double) 2);
             Toast.makeText(v.getContext(), "Mode Expert.", Toast.LENGTH_SHORT).show();
             startActivity(intent);
         });

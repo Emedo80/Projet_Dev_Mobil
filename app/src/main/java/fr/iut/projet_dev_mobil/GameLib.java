@@ -41,7 +41,6 @@ public class GameLib {
     private final int[] arrayColor;
 
 
-    @SuppressLint("SetTextI18n")
     GameLib(int defaultColor,
             int winCondition,
             int defaultLife,
@@ -119,7 +118,6 @@ public class GameLib {
     }
 
     //Création de la séquence du jeu
-    @SuppressLint("SetTextI18n")
     private void newSequence() {
         // 4 the win :
         if (alive && roundCounter == winCondition) {
@@ -180,7 +178,6 @@ public class GameLib {
 
     }
 
-    @SuppressLint("SetTextI18n")
     private void newGame() {
         Button startButton = buttonStart;
         startButton.setBackgroundColor(Color.GRAY);
@@ -196,7 +193,6 @@ public class GameLib {
 
 
     //Verification de la couleur du jeu et celle choisie par le joueur
-    @SuppressLint("SetTextI18n")
     private void colorCheck(int color) {
         if (alive) {
             if (color == colors[checkPosition]) {
@@ -215,7 +211,7 @@ public class GameLib {
 
         }
     }
-    @SuppressLint("SetTextI18n")
+
     private void isDead(){
             if (checkPosition == roundCounter && alive) {
                 score += palier * factor;
@@ -237,7 +233,6 @@ public class GameLib {
            end =  true;
     }
 
-    @SuppressLint("SetTextI18n")
     private void message(final Button startButton, final String msg){
         startButton.postDelayed(() -> {
 
