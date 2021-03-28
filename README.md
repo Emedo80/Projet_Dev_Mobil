@@ -12,7 +12,7 @@ Nous commençons par identifier l’utilisateur à l'aide de firebase Auth. Puis
 
 Les 3 modes de jeu essentiels sont disponibles. Le bouton du mode chrono est affiché mais aucun code n'est disponible derrière, ce n'est que visuel (nous ne pouvons d'ailleurs pas cliquer dessus). Chaque mode de jeu à donc comme caractéristiques : 
 
-*Facile : *
+*Facile :*
 * Nombre de blocs éclairés au départ : 1 
 * Nombre de blocs éclairés pour gagner : 7 
 * Poids du monde : 1
