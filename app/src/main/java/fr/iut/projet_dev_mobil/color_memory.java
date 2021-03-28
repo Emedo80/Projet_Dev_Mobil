@@ -95,7 +95,6 @@ public class color_memory extends AppCompatActivity {
             //Définition de l'emplacement et de la couleur des boutons
             Button button = new Button(this);
             buttons.add(button);
-            button.setText(getString(R.string.couleur)+ i); //
             button.setGravity(Gravity.CENTER);
             button.setBackgroundColor(arrayColor[i]);
 
